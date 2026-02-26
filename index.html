@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Universal Icon Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: '#3b82f6',
+              secondary: '#64748b',
+              dark: '#0f172a',
+              card: '#1e293b',
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      /* Custom scrollbar for webkit */
+      ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: transparent; 
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #475569; 
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #64748b; 
+      }
+      
+      /* Custom scrollbar class */
+      .custom-scrollbar::-webkit-scrollbar {
+        width: 6px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: #475569;
+        border-radius: 3px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+        background: #64748b;
+      }
+      
+      /* React Colorful Styles */
+      .react-colorful {
+        width: 100% !important;
+        height: 150px !important;
+      }
+      .react-colorful__saturation {
+        border-radius: 8px 8px 0 0;
+      }
+      .react-colorful__hue {
+        border-radius: 0 0 8px 8px;
+        height: 20px !important;
+      }
+      .react-colorful__pointer {
+        width: 20px !important;
+        height: 20px !important;
+        border: 2px solid white;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "tailwind-merge": "https://aistudiocdn.com/tailwind-merge@^3.4.0",
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.554.0",
+    "clsx": "https://aistudiocdn.com/clsx@^2.1.1",
+    "react-window": "https://esm.sh/react-window@1.8.10?external=react,react-dom",
+    "react-virtualized-auto-sizer": "https://esm.sh/react-virtualized-auto-sizer@1.0.24?external=react,react-dom",
+    "react-colorful": "https://esm.sh/react-colorful@5.6.1?external=react"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body class="bg-dark text-slate-200 antialiased overflow-hidden" style="color-scheme: dark;">
+    <div id="root" class="h-screen w-screen flex flex-col"></div>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html>

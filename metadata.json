@@ -1,0 +1,5 @@
+{
+  "name": "Universal Icon Hub",
+  "description": "A centralized, high-performance icon library allowing users to search, customize, and download icons from multiple open-source collections using the Iconify API.",
+  "requestFramePermissions": []
+}
