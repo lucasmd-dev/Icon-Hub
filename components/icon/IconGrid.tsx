@@ -3,7 +3,7 @@ import { FixedSizeGrid } from 'react-window';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import { IconData } from '../../types';
 import { Loader2, AlertCircle } from 'lucide-react';
-import { API_BASE } from '../../constants';
+import { API_BASE, isColoredIcon } from '../../constants';
 import { useScrollPosition } from '../../hooks/useScrollPosition';
 
 interface IconGridProps {
@@ -105,7 +105,10 @@ export const IconGrid: React.FC<IconGridProps> = ({
 
     if (!icon) return null;
 
-    const iconUrl = `${API_BASE}/${icon.prefix}/${icon.name}.svg?color=white`; 
+    const colored = isColoredIcon(icon.prefix);
+    const iconUrl = colored
+      ? `${API_BASE}/${icon.prefix}/${icon.name}.svg`
+      : `${API_BASE}/${icon.prefix}/${icon.name}.svg?color=white`;
 
     return (
       <div style={{
@@ -125,7 +128,7 @@ export const IconGrid: React.FC<IconGridProps> = ({
           <img 
             src={iconUrl} 
             alt=""
-            className="w-12 h-12 brightness-0 invert opacity-90 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300"
+            className={`w-12 h-12 opacity-90 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300 ${!colored ? 'brightness-0 invert' : ''}`}
             loading="lazy"
             onError={(e) => {
               e.currentTarget.style.display = 'none';
