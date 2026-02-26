@@ -1,50 +1,46 @@
-import { SYNONYMS } from '../constants';
-
-const translationCache = new Map<string, string>();
+const TRANSLATION_API = 'https://api.mymemory.translated.net/get';
+const CACHE = new Map<string, string>();
 
 export async function translateToEnglish(text: string): Promise<string> {
-  if (!text || text.trim() === '') {
-    return '';
-  }
-  
+  if (!text || text.trim() === '') return '';
+
   const normalized = text.trim().toLowerCase();
-  
-  if (translationCache.has(normalized)) {
-    return translationCache.get(normalized)!;
+  if (CACHE.has(normalized)) return CACHE.get(normalized)!;
+
+  try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 5000);
+
+    const res = await fetch(
+      `${TRANSLATION_API}?q=${encodeURIComponent(text)}&langpair=pt|en`,
+      { signal: controller.signal }
+    );
+    clearTimeout(timeout);
+
+    if (!res.ok) throw new Error('Translation API error');
+
+    const data = await res.json();
+    const translated = data?.responseData?.translatedText?.trim();
+
+    if (!translated) throw new Error('No translation');
+
+    const result = translated.toLowerCase();
+    CACHE.set(normalized, result);
+    return result;
+  } catch {
+    CACHE.set(normalized, normalized);
+    return normalized;
   }
-  
-  const words = normalized.split(/\s+/).filter(w => w.length > 0);
-  
-  const translatedWords = words.map(word => {
-    const cleanWord = word.replace(/[.,!?;:()\[\]{}'"]/g, '');
-    
-    if (SYNONYMS[cleanWord]) {
-      return SYNONYMS[cleanWord];
-    }
-    
-    const noAccent = cleanWord.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-    if (SYNONYMS[noAccent]) {
-      return SYNONYMS[noAccent];
-    }
-    
-    return cleanWord;
-  });
-  
-  const result = translatedWords.join(' ');
-  
-  translationCache.set(normalized, result);
-  
-  return result;
 }
 
 export function clearTranslationCache(): void {
-  translationCache.clear();
+  CACHE.clear();
 }
 
 export function getTranslationCacheStats() {
   return {
-    size: translationCache.size,
-    entries: Array.from(translationCache.entries()).slice(0, 10)
+    size: CACHE.size,
+    entries: Array.from(CACHE.entries()).slice(0, 10)
   };
 }
 
